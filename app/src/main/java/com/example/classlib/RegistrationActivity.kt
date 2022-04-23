@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -37,7 +38,7 @@ class RegistrationActivity : AppCompatActivity() {
         val password: String = passwordTV.text.toString()
 
         if (!validator.validEmail(email)) {
-            Toast.makeText(applicationContext, "Please enter valid email...", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Please enter a valid email...", Toast.LENGTH_LONG).show()
             return
         }
         if (!validator.validPassword(password)) {
@@ -53,7 +54,14 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, getString(R.string.register_success_string), Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
             } else {
-                Toast.makeText(applicationContext, getString(R.string.register_failed_string), Toast.LENGTH_LONG).show()
+                val errorCode = (task.exception as FirebaseAuthException?)!!.errorCode
+                var errorMessage = ""
+                errorMessage = if(errorCode == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL" || errorCode == "ERROR_EMAIL_ALREADY_IN_USE"){
+                    "An account already exists with the same email"
+                } else{
+                    "An unknown error has occurred. Please try again later"
+                }
+                Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_LONG).show()
             }
         }
     }

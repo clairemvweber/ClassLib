@@ -61,10 +61,19 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
                 } else {
                     val errorCode = (task.exception as FirebaseAuthException?)!!.errorCode
-
+                    var errorText = ""
+                    errorText = if(errorCode == "ERROR_INVALID_EMAIL" || errorCode == "ERROR_USER_MISMATCH" ||
+                        errorCode == "ERROR_USER_NOT_FOUND" || errorCode == "ERROR_WRONG_PASSWORD"){
+                        "Incorrect email or password"
+                    } else if(errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"
+                        || errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"){
+                        "An error has occurred from the server. Please try again later"
+                    } else{
+                        "An unknown error has occurred. Please try again later"
+                    }
                     Toast.makeText(
                         applicationContext,
-                        errorCode,
+                        errorText,
                         Toast.LENGTH_LONG
                     ).show()
                 }
