@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "829134801662",
+    "project_id": "claib-85c5c",
+    "storage_bucket": "claib-85c5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829134801662:android:47a2709a4b26d055cb33af",
+        "android_client_info": {
+          "package_name": "com.example.classlib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829134801662-qg7vg48gguoq783rm0o181eb9c2nhfep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArQHzCQGfI_o8zQlGxj2zKNujwoYWOo9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829134801662-qg7vg48gguoq783rm0o181eb9c2nhfep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
