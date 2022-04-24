@@ -9,4 +9,15 @@
     <string name="register_new_account_string">Register new account</string>
     <string name="register_success_string">Registration successful!</string>
     <string name="register_failed_string">Registration failed! Please try again later</string>
+    <string name="add_string">Add Book</string>
+    <string name="search_string">Search Library</string>
+    <string name="checkout_string">Checkout Book</string>
+    <string name="title_string">Title</string>
+    <string name="author_string">Author</string>
+    <string name="lexile_string">Lexile Level</string>
+    <string name="age_string">Age</string>
+    <string name="category_string">Category</string>
+    <string name="copies_string">Number of Copies</string>
+    <string name="barcode_string">Scan Barcode</string>
+    <string name="report_string">Reports</string>
 </resources>

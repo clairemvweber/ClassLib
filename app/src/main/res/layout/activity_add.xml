@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".AddActivity">
+
+  <TextView
+      android:id="@+id/title_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/title_string" />
+
+  <EditText
+      android:id="@+id/book_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="text"
+      android:minHeight="48dp" />
+
+  <TextView
+      android:id="@+id/author_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/author_string" />
+
+  <EditText
+      android:id="@+id/book_author"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="text"
+      android:minHeight="48dp"/>
+  <TextView
+      android:id="@+id/lexile_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/lexile_string" />
+
+  <EditText
+      android:id="@+id/book_lexile"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="text"
+      android:minHeight="48dp"/>
+  <TextView
+      android:id="@+id/age_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/age_string" />
+    <EditText
+        android:id="@+id/book_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:minHeight="48dp"/>
+  <TextView
+      android:id="@+id/category_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/category_string" />
+  <Spinner
+      android:id="@+id/category_spinner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="48dp"/>
+  <TextView
+      android:id="@+id/copies_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/copies_string" />
+  <EditText
+      android:id="@+id/book_copies"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="number"
+      android:minHeight="48dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+  <Button
+      android:id="@+id/scan_button"
+      android:layout_width="0dp"
+      android:layout_height="74dp"
+      android:text="@string/barcode_string"
+      android:layout_weight="1"/>
+  <Button
+      android:id="@+id/add_button"
+      android:layout_width="0dp"
+      android:layout_height="74dp"
+      android:text="@string/add_string"
+      android:layout_weight="1"/>
+</LinearLayout>
+
+</LinearLayout>

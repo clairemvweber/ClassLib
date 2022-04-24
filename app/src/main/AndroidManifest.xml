@@ -11,16 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.classlib.LoginActivity">
+        <activity
+            android:name=".ScannerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddActivity"
+            android:exported="false" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.example.classlib.RegistrationActivity" />
-        <activity android:name="com.example.classlib.DashboardActivity" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".DashboardActivity" />
     </application>
 
 </manifest>

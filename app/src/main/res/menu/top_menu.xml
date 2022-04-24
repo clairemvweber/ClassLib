@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/add_string"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/search_string"
+        />
+    <item
+        android:id="@+id/checkout"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/checkout_string"
+        >
+    </item>
+    <item
+        android:id="@+id/report"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/report_string">
+    </item>
+</menu>
