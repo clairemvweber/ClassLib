@@ -20,4 +20,7 @@
     <string name="copies_string">Number of Copies</string>
     <string name="barcode_string">Scan Barcode</string>
     <string name="report_string">Reports</string>
+    <string name="hint_student_id">Student\'s ID number</string>
+    <string name="hint_title">Title of the book</string>
+    <string name="student_id">Student ID</string>
 </resources>

@@ -15,9 +15,14 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         initializeUI()
         addBtn.setOnClickListener { addBook() }
+        checkoutBtn.setOnClickListener { checkout()}
     }
     private fun addBook(){
         startActivity(Intent(this@DashboardActivity, AddActivity::class.java))
+    }
+
+    private fun checkout(){
+        startActivity(Intent(this@DashboardActivity, CheckoutActivity::class.java))
     }
     private fun initializeUI() {
         searchBtn = findViewById(R.id.searchLibraryButton)

@@ -21,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginBtn: Button
     private lateinit var registerText: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var loginSkip: Button
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,9 @@ class LoginActivity : AppCompatActivity() {
         registerText.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         registerText.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
+        }
+        loginSkip.setOnClickListener{
+            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
         }
         loginBtn.setOnClickListener { loginUserAccount() }
     }
@@ -86,5 +90,6 @@ class LoginActivity : AppCompatActivity() {
         registerText = findViewById(R.id.registertext)
         loginBtn = findViewById(R.id.login)
         progressBar = findViewById(R.id.progressBar)
+        loginSkip = findViewById(R.id.skip)
     }
 }

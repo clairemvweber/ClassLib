@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".AddActivity">
+
+  <TextView
+      android:id="@+id/title_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/title_string" />
+
+  <EditText
+      android:id="@+id/book_title_return"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/hint_title"
+      android:inputType="text"
+      android:minHeight="48dp" />
+
+  <TextView
+      android:id="@+id/author_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/student_id" />
+
+  <EditText
+      android:id="@+id/student_id_return"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/hint_student_id"
+      android:inputType="text"
+      android:minHeight="48dp" />
+
+  <Button
+      android:id="@+id/scan_barcode_return"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Scan barcode"
+      android:translationY="185dp" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center_vertical"
+      android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/checkout_Button"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_weight="1"
+        android:text="Check Out" />
+
+    <Button
+        android:id="@+id/add_button_return"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_weight="1"
+        android:text="@string/add_string" />
+  </LinearLayout>
+
+</LinearLayout>
