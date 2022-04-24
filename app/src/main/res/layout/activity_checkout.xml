@@ -22,7 +22,7 @@
       android:minHeight="48dp" />
 
   <TextView
-      android:id="@+id/author_label"
+      android:id="@+id/student_id_label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/student_id" />
@@ -49,18 +49,18 @@
       android:orientation="horizontal">
 
     <Button
-        android:id="@+id/checkout_Button"
+        android:id="@+id/checkout_book_Button"
         android:layout_width="0dp"
         android:layout_height="74dp"
         android:layout_weight="1"
         android:text="Check Out" />
 
     <Button
-        android:id="@+id/add_button_return"
+        android:id="@+id/return_book"
         android:layout_width="0dp"
         android:layout_height="74dp"
         android:layout_weight="1"
-        android:text="@string/add_string" />
+        android:text="Return" />
   </LinearLayout>
 
 </LinearLayout>
