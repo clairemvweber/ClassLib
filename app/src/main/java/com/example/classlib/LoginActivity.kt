@@ -36,7 +36,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
         loginSkip.setOnClickListener{
-            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+            intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+            intent.putExtra("username", "admin")
+            startActivity(intent)
         }
         loginBtn.setOnClickListener { loginUserAccount() }
     }
@@ -62,7 +64,10 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Login successful!", Toast.LENGTH_LONG)
                         .show()
-                    startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                    // send the user's email to the next activity
+                    intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                    intent.putExtra("username", email)
+                    startActivity(intent)
                 } else {
                     val errorCode = (task.exception as FirebaseAuthException?)!!.errorCode
                     var errorText = ""
