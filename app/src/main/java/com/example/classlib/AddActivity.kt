@@ -38,6 +38,7 @@ class AddActivity : AppCompatActivity() {
         data.put("Author", bookAuthor.text.toString() ?: "")
         data.put("Lexile Level", bookLexile.text.toString() ?: "")
         data.put("Age", bookAge.text.toString() ?: "")
+        data.put("Checked Out", "")
 
         // not been implemented yet
         //data.put("Category", bookCategory.selectedItem.toString())
