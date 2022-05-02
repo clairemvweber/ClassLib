@@ -23,4 +23,18 @@
     <string name="hint_student_id">Student\'s ID number</string>
     <string name="hint_title">Title of the book</string>
     <string name="student_id">Student ID</string>
+    <string name="isbn_string">ISBN</string>
+    <string name="lookup_string">Lookup ISBN</string>
+    <string name="search_isbn_string">Search ISBN</string>
+    <string-array name="Categories">
+        <item>Animals, Bugs &amp; Pets</item>
+        <item>Art, Creativity &amp; Music</item>
+        <item>General Literature</item>
+        <item>Hobbies, Sports &amp; Outdoors</item>
+        <item>Science Fiction &amp; Fantasy</item>
+        <item>Real Life</item>
+        <item>Science &amp; Technology</item>
+        <item>Mystery &amp; Suspense</item>
+        <item>Reference</item>
+    </string-array>
 </resources>

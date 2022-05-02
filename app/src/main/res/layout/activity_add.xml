@@ -82,10 +82,10 @@
     android:orientation="horizontal"
     android:gravity="center_vertical">
   <Button
-      android:id="@+id/scan_button"
+      android:id="@+id/search_isbn_button"
       android:layout_width="0dp"
       android:layout_height="74dp"
-      android:text="@string/barcode_string"
+      android:text="@string/search_isbn_string"
       android:layout_weight="1"/>
   <Button
       android:id="@+id/add_button"
