@@ -39,9 +39,7 @@ class AddActivity : AppCompatActivity() {
         data.put("Lexile Level", bookLexile.text.toString() ?: "")
         data.put("Age", bookAge.text.toString() ?: "")
         data.put("Checked Out", "")
-
-        // not been implemented yet
-        //data.put("Category", bookCategory.selectedItem.toString())
+        data.put("Category", bookCategory.selectedItem.toString())
         data.put("Number of Copies", bookCopies.text.toString() ?: "")
 
 
@@ -50,8 +48,9 @@ class AddActivity : AppCompatActivity() {
             val db = Firebase.firestore
             // will merge (update) the field, if there is already a book in the database, if not,
             // it will create it
-            db.collection(userEmail).document(bookTitle.text.toString())
+            db.collection(userEmail).document(bookTitle.text.toString().uppercase())
                 .set(data, SetOptions.merge())
+            Toast.makeText(applicationContext, "Sucessfully added the book!", Toast.LENGTH_LONG).show()
             finish()
         }
         else{

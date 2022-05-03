@@ -4,20 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.*
 
 class CheckoutActivity : AppCompatActivity() {
-    private lateinit var bookTitle: EditText
+    private lateinit var bookTitle: AutoCompleteTextView
     private lateinit var studentID: EditText
     private lateinit var barcodeButton: Button
     private lateinit var returnButton: Button
     private lateinit var checkoutButton: Button
     var userEmail = ""
+    val TAG = "ClassLib"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
@@ -25,15 +25,36 @@ class CheckoutActivity : AppCompatActivity() {
         initializeUI()
         returnButton.setOnClickListener { returnBook() }
         checkoutButton.setOnClickListener { checkOut() }
+
+        // Suggestion text
+        val db = Firebase.firestore
+        val docRef = db.collection(userEmail)
+        val list: MutableList<String> =  mutableListOf<String>()
+        docRef.get().addOnSuccessListener { document ->
+            val temp = document.documents
+            for(a in temp){
+                if(a != null) {
+                    list.add(a.get("Title").toString())
+                    //Log.d(TAG, "DocumentSnapshot data: ${a.get("Title")}")
+                }
+            }
+            if(!list.isEmpty()) {
+                ArrayAdapter<String>(this, R.layout.suggestion_layout, list).also { adapter ->
+                    bookTitle.setAdapter(adapter)
+                }
+            }
+        }.addOnFailureListener {
+            Toast.makeText(applicationContext, "Auto suggestion not available",
+                Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun checkOut() {
-        val TAG = "ClassLib"
         val id = studentID.text.toString()
         val db = Firebase.firestore
         val bookTitle = bookTitle.text.toString()
         if((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
-            val docRef = db.collection(userEmail).document(bookTitle)
+            val docRef = db.collection(userEmail).document(bookTitle.uppercase())
             docRef.get().addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     //Log.d(TAG, "DocumentSnapshot data: ${document.data}")
@@ -80,7 +101,7 @@ class CheckoutActivity : AppCompatActivity() {
                     else {
                         Toast.makeText(
                             applicationContext,
-                            "There are no more ${bookTitle} be checked out",
+                            "There are no more ${bookTitle} available",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -112,12 +133,11 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun returnBook() {
-        val TAG = "ClassLib"
         val id = studentID.text.toString()
         val db = Firebase.firestore
         val bookTitle = bookTitle.text.toString()
         if((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
-            val docRef = db.collection(userEmail).document(bookTitle)
+            val docRef = db.collection(userEmail).document(bookTitle.uppercase())
             docRef.get().addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     //Log.d(TAG, "DocumentSnapshot data: ${document.data}")
@@ -132,7 +152,7 @@ class CheckoutActivity : AppCompatActivity() {
                     } else {
                         newList.remove(id)
                         list = newList.joinToString(",")
-                        Log.d(TAG, list)
+                        //Log.d(TAG, list)
                         var booksAvail = Integer.parseInt(
                             document.get("Number of Copies").toString()
                         )
