@@ -26,4 +26,19 @@
     <string name="available_string">Available</string>
     <string name="category_prompt">Choose Category</string>
     <string name="genre_string">Genre</string>
+
+    <string name="isbn_string">ISBN</string>
+    <string name="lookup_string">Lookup ISBN</string>
+    <string name="search_isbn_string">Search ISBN</string>
+    <string-array name="Categories">
+        <item>Animals, Bugs &amp; Pets</item>
+        <item>Art, Creativity &amp; Music</item>
+        <item>General Literature</item>
+        <item>Hobbies, Sports &amp; Outdoors</item>
+        <item>Science Fiction &amp; Fantasy</item>
+        <item>Real Life</item>
+        <item>Science &amp; Technology</item>
+        <item>Mystery &amp; Suspense</item>
+        <item>Reference</item>
+    </string-array>
 </resources>
