@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    tools:context=".SearchActivity">
+
+    <TextView
+        android:id="@+id/search_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_string" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_title_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_string"
+            android:minHeight="48dp"
+            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/author_search_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/author_string" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_author_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_author_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/author_string"
+            android:minHeight="48dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/search_genre_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/genre_string" />
+
+    <Spinner
+        android:id="@+id/search_genre_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/genres"
+        android:minHeight="48dp"
+        android:paddingBottom="20dp" />
+
+    <TextView
+        android:id="@+id/search_lexile_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lexile_string" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/search_lexile_range"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stepSize="100"
+        android:valueFrom="0"
+        android:valueTo="2000"
+        app:values='@array/lexile_range_value' />
+
+    <TextView
+        android:id="@+id/seach_age_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/age_string" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/search_age_range"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0"
+        android:valueTo="100"
+        android:stepSize="1"
+        app:values='@array/age_range_value' />
+
+    <CheckBox
+        android:id="@+id/search_availability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/available_string" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_string" />
+    </FrameLayout>
+
+
+</LinearLayout>
+

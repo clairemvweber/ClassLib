@@ -16,6 +16,7 @@ class DashboardActivity : AppCompatActivity() {
         initializeUI()
         addBtn.setOnClickListener { addBook() }
         checkoutBtn.setOnClickListener { checkout()}
+        searchBtn.setOnClickListener { searchLibrary() }
     }
     private fun addBook(){
         startActivity(Intent(this@DashboardActivity, AddActivity::class.java))
@@ -24,6 +25,11 @@ class DashboardActivity : AppCompatActivity() {
     private fun checkout(){
         startActivity(Intent(this@DashboardActivity, CheckoutActivity::class.java))
     }
+
+    private fun searchLibrary(){
+        startActivity(Intent(this, SearchActivity::class.java))
+    }
+
     private fun initializeUI() {
         searchBtn = findViewById(R.id.searchLibraryButton)
         addBtn = findViewById(R.id.addBookButton)

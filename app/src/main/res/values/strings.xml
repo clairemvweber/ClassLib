@@ -23,4 +23,7 @@
     <string name="hint_student_id">Student\'s ID number</string>
     <string name="hint_title">Title of the book</string>
     <string name="student_id">Student ID</string>
+    <string name="available_string">Available</string>
+    <string name="category_prompt">Choose Category</string>
+    <string name="genre_string">Genre</string>
 </resources>

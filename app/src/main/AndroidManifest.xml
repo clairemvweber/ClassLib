@@ -12,6 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SearchResultsActivity"
+            android:exported="false"
+            android:theme="@style/SearchTheme"/>
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:theme="@style/SearchTheme" />
+        <activity
             android:name=".ScannerActivity"
             android:exported="false" />
         <activity
