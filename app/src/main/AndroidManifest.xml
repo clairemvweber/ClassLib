@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-<<<<<<< HEAD
             android:name=".SearchResultsActivity"
             android:exported="false"
             android:theme="@style/SearchTheme"/>
@@ -22,10 +21,9 @@
             android:exported="false"
             android:theme="@style/SearchTheme" />
         <activity
-            android:name=".ScannerActivity"
-=======
+            android:name=".ScannerActivity" />
+        <activity
             android:name=".LookupActivity"
->>>>>>> 2c3387d5f51deeaf019dd77e86cc3e798818bf25
             android:exported="false" />
         <activity
             android:name=".AddActivity"
