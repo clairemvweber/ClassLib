@@ -28,6 +28,7 @@ class DashboardActivity : AppCompatActivity() {
         addBtn.setOnClickListener { addBook() }
         checkoutBtn.setOnClickListener { checkout()}
         searchBtn.setOnClickListener { searchLibrary() }
+        reportsBtn.setOnClickListener { report() }
 
         // DELETE LATER!
         // how to get data from the cloud firestore
@@ -73,6 +74,12 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun searchLibrary(){
         startActivity(Intent(this, SearchActivity::class.java))
+    }
+
+    private fun report(){
+        intent = Intent(this@DashboardActivity, ReportActivity::class.java)
+        intent.putExtra("username", userEmail)
+        startActivity(intent)
     }
 
     private fun initializeUI() {

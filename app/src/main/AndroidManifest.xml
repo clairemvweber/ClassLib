@@ -39,6 +39,8 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".CheckoutActivity" />
+        <activity android:name=".ReportActivity" />
+        <activity android:name=".ReportResultActivity" />
         <activity android:name=".NetworkingJSONResponseActivity" />
     </application>
 
