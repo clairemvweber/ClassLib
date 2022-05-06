@@ -50,4 +50,13 @@
         <item>Lexile Level</item>
         <item>Copies Available</item>
     </string-array>
+
+    <string-array name="Sorting2">
+        <item>Author</item>
+        <item>Age</item>
+        <item>Category</item>
+        <item>Lexile Level</item>
+        <item>Copies Available</item>
+        <item>Title</item>
+    </string-array>
 </resources>

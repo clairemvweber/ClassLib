@@ -3,6 +3,7 @@ package com.example.classlib
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -34,10 +35,14 @@ class ReportResultActivity : AppCompatActivity() {
         // either list em all or only list the ones that have been checked out
         val whichOne = intent.getStringExtra("get").toString() == "checked"
         var sortBy = intent.getStringExtra("sort").toString()
+        var sortBy2 = intent.getStringExtra("sort2").toString()
         if(sortBy == "Copies Available"){
             sortBy = "Number of Copies"
         }
-        docRef.orderBy(sortBy).get().addOnSuccessListener { document ->
+        if(sortBy2 == "Copies Available"){
+            sortBy2 = "Number of Copies"
+        }
+        docRef.orderBy(sortBy).orderBy(sortBy2).get().addOnSuccessListener { document ->
             val temp = document.documents
             for(a in temp){
                 if(a != null) {
@@ -59,9 +64,10 @@ class ReportResultActivity : AppCompatActivity() {
                 //Log.d(TAG, "DocumentSnapshot data: ${list}")
                 mRecyclerView.adapter = MyRecyclerViewAdapter(list,R.layout.activity_report_view)
             }
-        }.addOnFailureListener {
-            Toast.makeText(applicationContext, "Could load data from server",
+        }.addOnFailureListener { e ->
+            Toast.makeText(applicationContext, "Couldn't load data from server",
                 Toast.LENGTH_LONG).show()
+            Log.w(TAG, "Error reading document", e)
         }
     }
 

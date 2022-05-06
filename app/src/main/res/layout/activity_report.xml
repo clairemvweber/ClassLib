@@ -11,10 +11,22 @@
       android:id="@+id/sort_label"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Sort by:" />
+      android:text="Sort first by:" />
 
   <Spinner
       android:id="@+id/sort_spinner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="48dp" />
+
+  <TextView
+      android:id="@+id/sort_label2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Sort second by:" />
+
+  <Spinner
+      android:id="@+id/sort_spinner2"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:minHeight="48dp" />
