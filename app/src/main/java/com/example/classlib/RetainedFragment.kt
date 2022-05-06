@@ -89,10 +89,16 @@ class RetainedFragment : Fragment() {
                 // 3. This app does not use a request body
                 httpUrlConnection.setRequestProperty("Accept", "application/json; version=1.0")
                 // 4. Read the response
-                val inputstream = BufferedInputStream(
-                    httpUrlConnection.inputStream
-                )
-                data = readStream(inputstream)
+                Log.i(TAG,httpUrlConnection.responseCode.toString())
+                Log.i(TAG,httpUrlConnection.responseMessage.toString())
+                Log.i(TAG,"before stream")
+                if(httpUrlConnection.responseCode == HttpURLConnection.HTTP_OK){
+                    val inputstream = BufferedInputStream(
+                        httpUrlConnection.inputStream
+                    )
+                    Log.i(TAG,"before read")
+                    data = readStream(inputstream)
+                }
 
             } catch (exception: MalformedURLException) {
                 Log.e(TAG, "MalformedURLException")
@@ -144,28 +150,12 @@ class RetainedFragment : Fragment() {
                 val responseObject = JSONTokener(
                     data
                 ).nextValue() as JSONObject
+                val work = responseObject
+                    .getJSONObject("data").getJSONObject("work")
+                result.add(work.toString())
 
-                result.add(responseObject
-                    .getJSONObject("data").getJSONObject("work").toString())
-
-
-//                    result.add(
-//                        ISBN_TAG + ":"
-//                                + book.getString(ISBN_TAG) + ","
-//                                + AUTHORS_TAG + ":"
-//                                + book.getJSONArray(AUTHORS_TAG).toString() + ","
-//                                + CATEGORIES_TAG + ":"
-//                                + book.getJSONArray(CATEGORIES_TAG)+ ","
-//                                + LEXILE_TAG + ":"
-//                                + book.getJSONObject(MEASUREMENTS_TAG).getJSONObject("english").getInt(
-//                            LEXILE_TAG)+ ","
-//                                + MIN_AGE_TAG + ":"
-//                                + book.getString(MIN_AGE_TAG)+ ","
-//                                + MAX_AGE_TAG + ":"
-//                                + book.getString(MAX_AGE_TAG)
-//                    )
-            } catch (e: JSONException) {
-                e.printStackTrace()
+            } catch (e: Throwable) {
+                return result
             }
             return result
         }
