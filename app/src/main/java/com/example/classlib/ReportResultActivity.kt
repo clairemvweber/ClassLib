@@ -10,7 +10,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.model.Document
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
@@ -42,9 +44,10 @@ class ReportResultActivity : AppCompatActivity() {
         if(sortBy2 == "Copies Available"){
             sortBy2 = "Number of Copies"
         }
-        docRef.orderBy(sortBy).orderBy(sortBy2).get().addOnSuccessListener { document ->
+        docRef.orderBy(sortBy).get().addOnSuccessListener { document ->
             val temp = document.documents
-            for(a in temp){
+            val sorted = temp.sortedWith(compareBy({ it.get(sortBy).toString()}, {it.get(sortBy2).toString() }))
+            for(a in sorted){
                 if(a != null) {
                     if(a.get("Checked Out") == "" && whichOne) {}
                     else {
@@ -62,6 +65,7 @@ class ReportResultActivity : AppCompatActivity() {
             }
             if(!list.isEmpty()) {
                 //Log.d(TAG, "DocumentSnapshot data: ${list}")
+
                 mRecyclerView.adapter = MyRecyclerViewAdapter(list,R.layout.activity_report_view)
             }
         }.addOnFailureListener { e ->
