@@ -53,8 +53,8 @@ class SearchActivity : AppCompatActivity() {
             title.text.toString(),
             author.text.toString(),
             category.selectedItem.toString(),
-            lexileLevel.valueFrom.toInt().toString(), lexileLevel.valueTo.toInt().toString(),
-            age.valueFrom.toInt().toString(), age.valueTo.toInt().toString(),
+            lexileLevel.values[0].toInt().toString(), lexileLevel.values[1].toInt().toString(),
+            age.values[0].toInt().toString(), age.values[1].toInt().toString(),
             availableInput)
 
         val searchIntent = Intent(this, SearchResultsActivity::class.java)
