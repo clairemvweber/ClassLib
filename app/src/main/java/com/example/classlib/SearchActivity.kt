@@ -3,16 +3,15 @@ package com.example.classlib
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.Spinner
+import android.util.Log
+import android.widget.*
 import com.google.android.material.slider.RangeSlider
-import android.widget.CheckBox
-import android.widget.Button
 
 class SearchActivity : AppCompatActivity() {
+    private lateinit var user: String
     private lateinit var title: EditText
     private lateinit var author: EditText
-    private lateinit var genre: Spinner
+    private lateinit var category: Spinner
     private lateinit var lexileLevel: RangeSlider
     private lateinit var age: RangeSlider
     private lateinit var available: CheckBox
@@ -26,9 +25,20 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initializeUI() {
+        user = intent.getStringExtra("username").toString()
         title = findViewById(R.id.search_title_input)
         author = findViewById(R.id.search_author_input)
-        genre = findViewById(R.id.search_genre_spinner)
+
+        category = findViewById(R.id.search_category_spinner)
+
+        val adapter = ArrayAdapter(
+            this, R.layout.support_simple_spinner_dropdown_item,
+            resources.getStringArray(R.array.categories)
+        )
+        category.adapter=adapter
+
+//        category = findViewById(R.id.search_category_spinner)
+
         lexileLevel = findViewById(R.id.search_lexile_range)
         age = findViewById(R.id.search_age_range)
         available = findViewById(R.id.search_availability)
@@ -37,20 +47,19 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun search() {
-        val titleInput = title.text.toString()
-        val authorInput = author.text.toString()
-        val genreInput = genre.selectedItem.toString()
-        val lexileMinInput = lexileLevel.valueFrom.toString()
-        val lexileMaxInput = lexileLevel.valueTo.toString()
-        val ageMinInput = age.valueFrom.toString()
-        val ageMaxInput = age.valueTo.toString()
-        val availableInput = available.isChecked.toString()
+        val availableInput = if (available.isChecked) "1" else "0"
 
-        val queryArray = arrayOf(titleInput, authorInput, genreInput,
-            lexileMinInput, lexileMaxInput, ageMinInput, ageMaxInput, availableInput)
+        val queryArray = arrayOf(
+            title.text.toString(),
+            author.text.toString(),
+            category.selectedItem.toString(),
+            lexileLevel.valueFrom.toInt().toString(), lexileLevel.valueTo.toInt().toString(),
+            age.valueFrom.toInt().toString(), age.valueTo.toInt().toString(),
+            availableInput)
 
-        val searchIntent = Intent()
+        val searchIntent = Intent(this, SearchResultsActivity::class.java)
 
+        searchIntent.putExtra("user", user)
         searchIntent.putExtra("queryArray", queryArray)
 
         startActivity(searchIntent)

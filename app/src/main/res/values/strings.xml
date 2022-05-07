@@ -25,7 +25,7 @@
     <string name="student_id">Student ID</string>
     <string name="available_string">Available</string>
     <string name="category_prompt">Choose Category</string>
-    <string name="genre_string">Genre</string>
+    <string name="checked_out_string">Checked Out:</string>
 
     <string name="isbn_string">ISBN</string>
     <string name="lookup_string">Lookup ISBN</string>

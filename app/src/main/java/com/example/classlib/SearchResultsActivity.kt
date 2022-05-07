@@ -3,65 +3,84 @@ package com.example.classlib
 //import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class SearchResultsActivity : AppCompatActivity(), BooksAdapter.BooksAdapterListener {
-
-    private lateinit var adapter: BooksAdapter
-    private lateinit var queries: Array<String>
-//    private lateinit var title: String
-//    private lateinit var author: String
-//    private lateinit var genre: String
-//    private var lexileMinLevel: Int = 0
-//    private var lexileMaxLevel: Int = 0
-//    private var ageMin: Int = 0
-//    private var ageMax: Int = 0
-//    private lateinit var available: String
+class SearchResultsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_results)
 
-        // Load query values from intent
-        val searchIntent = intent
-        queries = searchIntent.getStringArrayExtra("queryArray")!!
+        // Load user and query values from intent
+        val user = intent.getStringExtra("user").toString()
+        val queries = intent.getStringArrayExtra("queryArray")!!
 
         // Create a reference to the books collection
         val db = Firebase.firestore
-        val booksRef = db.collection("books")
+        val libRef = db.collection(user)
 
-        val query = booksRef
-            .whereEqualTo("title", queries[0])
-            .whereEqualTo("author", queries[1])
-            .whereEqualTo("genre", queries[2])
-            .whereGreaterThanOrEqualTo("lexileLevel", queries[3].toInt())
-            .whereLessThanOrEqualTo("lexileLevel", queries[4].toInt())
-            .whereGreaterThanOrEqualTo("age", queries[5].toInt())
-            .whereLessThanOrEqualTo("age", queries[6].toInt())
-            .whereEqualTo("available", queries[7])
+        var list = mutableListOf<Books>()
 
-//        val query: Query = FirebaseFirestore.getInstance().collection("books")
+        val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.adapter = SearchRecyclerViewAdapter(list)
 
-        val recyclerView: RecyclerView = findViewById(R.id.result_recycler)
-        adapter = BooksAdapter(query, this)
-        recyclerView.adapter = adapter
-    }
+        libRef.whereGreaterThanOrEqualTo("Number of Copies", queries[7])
+            .get()
+            .addOnSuccessListener { document ->
+                val docs = document.documents
 
-    override fun onStart() {
-        super.onStart()
-        adapter.startListening()
-    }
+                for (d in docs) {
+                    if (d != null) {
+                        val book = Books()
 
-    override fun onStop() {
-        super.onStop()
-        adapter.stopListening()
-    }
+                        book.title = d.get("Title").toString()
+                        book.author = d.get("Author").toString()
+                        book.category = d.get("Category").toString()
+                        book.lexileLevel = d.get("Lexile Level").toString()
+                        book.age = d.get("Age").toString()
+                        book.num_copies = d.get("Number of Copies").toString()
+                        book.checked_out = d.get("Checked Out").toString()
 
-    override fun onBookSelected(books: Books?) {
-        return
+                        list.add(book)
+                    }
+                }
+
+                var bookList = list.toList()
+
+                if (queries[0] != "") {
+                    bookList = bookList.filter { book -> book.title.equals(queries[0], ignoreCase = true) }
+                }
+
+                if (queries[1] != "") {
+                    bookList = bookList.filter { book -> book.author.equals(queries[1], ignoreCase = true) }
+                }
+
+                if (queries[2] != "Any") {
+                    bookList = bookList.filter { book -> book.category == queries[2] }
+                }
+
+                bookList = bookList.filter { book ->
+                    (queries[3].toInt() <= book.lexileLevel!!.toInt()
+                            && book.lexileLevel!!.toInt() <= queries[4].toInt()) }
+
+                bookList = bookList.filter { book ->
+                    (queries[5].toInt() <= book.age!!.toInt()
+                            && book.age!!.toInt() <= queries[6].toInt()) }
+
+                if (bookList.isNotEmpty()) {
+                    Log.i("SearchResultActivity", "list loaded")
+                    recyclerView.adapter = SearchRecyclerViewAdapter(bookList)
+                }
+
+            }.addOnFailureListener {
+                Toast.makeText(applicationContext, "Could load data from server",
+                    Toast.LENGTH_LONG).show()
+            }
     }
 }

@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title_string"
+            android:text=""
             android:minHeight="48dp"
             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
 
@@ -55,13 +56,13 @@
         android:id="@+id/search_genre_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/genre_string" />
+        android:text="@string/category_string" />
 
     <Spinner
-        android:id="@+id/search_genre_spinner"
+        android:id="@+id/search_category_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/genres"
+        android:entries="@array/categories"
         android:minHeight="48dp"
         android:paddingBottom="20dp" />
 

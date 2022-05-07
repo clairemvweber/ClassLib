@@ -73,7 +73,9 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun searchLibrary(){
-        startActivity(Intent(this, SearchActivity::class.java))
+        intent = Intent(this, SearchActivity::class.java)
+        intent.putExtra("username", userEmail)
+        startActivity(intent)
     }
 
     private fun report(){
