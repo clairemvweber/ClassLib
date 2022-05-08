@@ -2,6 +2,7 @@ package com.example.classlib
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.text.Html
 import android.text.Spanned
 import android.util.Log
@@ -31,7 +32,6 @@ class ReportResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_result)
         userEmail = intent.getStringExtra("username").toString()
-        initializeUI()
         val mRecyclerView = findViewById<RecyclerView>(R.id.list)
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         // empty adapter to get rid of the no adapter attached;
@@ -85,40 +85,46 @@ class ReportResultActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeUI() {
-    }
-
     private fun exportReport() {
-        val writer = openFileOutput("books.csv", Context.MODE_PRIVATE).bufferedWriter()
-//        val writer = File("books.csv").bufferedWriter();
 
-        val csvPrinter = CSVPrinter(
-            writer, CSVFormat.DEFAULT
-                .withHeader(
-                    "Title",
-                    "Author",
-                    "Age",
-                    "Category",
-                    "Lexile Level",
-                    "Number of Copies",
-                    "Checked Out By"
-                )
-        );
-        for (book in sorted) {
-            csvPrinter.printRecord(
-                book.get("Title").toString(),
-                book.get("Author").toString(),
-                book.get("Age").toString(),
-                book.get("Category").toString(),
-                book.get("Lexile Level").toString(),
-                book.get("Number of Copies").toString(),
-                book.get("Checked Out").toString()
+        try {
+            val file = File(
+                getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                "books.csv"
             )
+            Log.i(TAG,file.absolutePath)
+            val writer = file.bufferedWriter()
+
+            val csvPrinter = CSVPrinter(
+                writer, CSVFormat.DEFAULT
+                    .withHeader(
+                        "Title",
+                        "Author",
+                        "Age",
+                        "Category",
+                        "Lexile Level",
+                        "Number of Copies",
+                        "Checked Out By"
+                    )
+            );
+            for (book in sorted) {
+                csvPrinter.printRecord(
+                    book.get("Title").toString(),
+                    book.get("Author").toString(),
+                    book.get("Age").toString(),
+                    book.get("Category").toString(),
+                    book.get("Lexile Level").toString(),
+                    book.get("Number of Copies").toString(),
+                    book.get("Checked Out").toString()
+                )
+            }
+            csvPrinter.flush()
+            csvPrinter.close()
+
+        }catch(e : Exception){
+            Log.i(TAG, "Error")
+            e.printStackTrace()
         }
-        csvPrinter.flush()
-        csvPrinter.close()
-
-
     }
 
 
