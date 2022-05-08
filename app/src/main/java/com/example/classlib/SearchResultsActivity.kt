@@ -25,9 +25,11 @@ class SearchResultsActivity : AppCompatActivity() {
         val libRef = db.collection(user)
 
         val list = mutableListOf<Books>()
+        var bookList = listOf<Books>()
 
         val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = SearchRecyclerViewAdapter(bookList)
 
         // Read contents of snapshot to Book object and store in list
         // Apply availability filter to initial get request
@@ -52,7 +54,7 @@ class SearchResultsActivity : AppCompatActivity() {
                     }
                 }
 
-                var bookList = list.toList()
+                bookList = list.toList()
 
                 // Search functions by query values
                 if (queries[0] != "") {
