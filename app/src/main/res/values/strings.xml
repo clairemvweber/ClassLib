@@ -25,7 +25,14 @@
     <string name="student_id">Student ID</string>
     <string name="available_string">Available</string>
     <string name="category_prompt">Choose Category</string>
-    <string name="checked_out_string">Checked Out:</string>
+
+    <string name="title_card_string">Title:</string>
+    <string name="author_card_string">Author:</string>
+    <string name="category_card_string">Category:</string>
+    <string name="lexile_card_string">Lexile Level:</string>
+    <string name="age_card_string">Age:</string>
+    <string name="ncopies_card_string">Available Copies:</string>
+    <string name="co_card_string">Checked Out By:</string>
 
     <string name="isbn_string">ISBN</string>
     <string name="lookup_string">Lookup ISBN</string>

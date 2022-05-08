@@ -37,8 +37,6 @@ class SearchActivity : AppCompatActivity() {
         )
         category.adapter=adapter
 
-//        category = findViewById(R.id.search_category_spinner)
-
         lexileLevel = findViewById(R.id.search_lexile_range)
         age = findViewById(R.id.search_age_range)
         available = findViewById(R.id.search_availability)
@@ -46,6 +44,7 @@ class SearchActivity : AppCompatActivity() {
         searchButton.setOnClickListener{ search() }
     }
 
+    // Stores input as intent extras and starts SearchResultsActivity
     private fun search() {
         val availableInput = if (available.isChecked) "1" else "0"
 

@@ -24,12 +24,13 @@ class SearchResultsActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val libRef = db.collection(user)
 
-        var list = mutableListOf<Books>()
+        val list = mutableListOf<Books>()
 
         val recyclerView = findViewById<RecyclerView>(R.id.search_result_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.adapter = SearchRecyclerViewAdapter(list)
 
+        // Read contents of snapshot to Book object and store in list
+        // Apply availability filter to initial get request
         libRef.whereGreaterThanOrEqualTo("Number of Copies", queries[7])
             .get()
             .addOnSuccessListener { document ->
@@ -53,12 +54,13 @@ class SearchResultsActivity : AppCompatActivity() {
 
                 var bookList = list.toList()
 
+                // Search functions by query values
                 if (queries[0] != "") {
-                    bookList = bookList.filter { book -> book.title.equals(queries[0], ignoreCase = true) }
+                    bookList = bookList.filter { book -> book.title!!.contains(queries[0], ignoreCase = true) }
                 }
 
                 if (queries[1] != "") {
-                    bookList = bookList.filter { book -> book.author.equals(queries[1], ignoreCase = true) }
+                    bookList = bookList.filter { book -> book.author!!.contains(queries[1], ignoreCase = true) }
                 }
 
                 if (queries[2] != "Any") {

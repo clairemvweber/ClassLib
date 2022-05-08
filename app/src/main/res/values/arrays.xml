@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="age_range_value">
-        <item>10</item>
-        <item>90</item>
+        <item>0</item>
+        <item>100</item>
     </string-array>
 
     <string-array name="lexile_range_value">
-        <item>500</item>
-        <item>1500</item>
+        <item>0</item>
+        <item>2000</item>
     </string-array>
 
     <string-array name="categories">
