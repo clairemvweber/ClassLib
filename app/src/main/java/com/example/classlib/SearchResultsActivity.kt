@@ -78,13 +78,21 @@ class SearchResultsActivity : AppCompatActivity() {
                 }
 
                 bookList = bookList.filter { book ->
-                    (queries[3].toInt() <= book.lexileLevel!!.toInt()
-                            && book.lexileLevel!!.toInt() <= queries[4].toInt())
+                    if (book.lexileLevel != ""){
+                        (queries[3].toInt() <= book.lexileLevel!!.toInt()
+                                && book.lexileLevel!!.toInt() <= queries[4].toInt())
+                    } else {
+                        true
+                    }
                 }
 
                 bookList = bookList.filter { book ->
-                    (queries[5].toInt() <= book.age!!.toInt()
-                            && book.age!!.toInt() <= queries[6].toInt())
+                    if (book.age != "") {
+                        (queries[5].toInt() <= book.age!!.toInt()
+                                && book.age!!.toInt() <= queries[6].toInt())
+                    } else {
+                        true
+                    }
                 }
 
                 if (bookList.isNotEmpty()) {
