@@ -1,5 +1,6 @@
 package com.example.classlib
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
@@ -14,12 +15,17 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.model.Document
 import com.google.firebase.ktx.Firebase
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVPrinter
+import java.io.BufferedWriter
+import java.io.File
+import java.nio.file.Paths
 import java.util.*
 
 class ReportResultActivity : AppCompatActivity() {
     var userEmail = ""
     val TAG = "ClassLib"
-
+    private lateinit var sorted : List<DocumentSnapshot>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_result)
@@ -46,7 +52,7 @@ class ReportResultActivity : AppCompatActivity() {
         }
         docRef.orderBy(sortBy).get().addOnSuccessListener { document ->
             val temp = document.documents
-            val sorted = temp.sortedWith(compareBy({ it.get(sortBy).toString()}, {it.get(sortBy2).toString() }))
+            sorted = temp.sortedWith(compareBy({ it.get(sortBy).toString()}, {it.get(sortBy2).toString() }))
             for(a in sorted){
                 if(a != null) {
                     if(a.get("Checked Out") == "" && whichOne) {}
@@ -67,6 +73,7 @@ class ReportResultActivity : AppCompatActivity() {
                 //Log.d(TAG, "DocumentSnapshot data: ${list}")
 
                 mRecyclerView.adapter = MyRecyclerViewAdapter(list,R.layout.activity_report_view)
+                exportReport()
             }
         }.addOnFailureListener { e ->
             Toast.makeText(applicationContext, "Couldn't load data from server",
@@ -77,5 +84,21 @@ class ReportResultActivity : AppCompatActivity() {
 
     private fun initializeUI() {
     }
+    private fun exportReport(){
+        val writer = openFileOutput("books.csv", Context.MODE_PRIVATE).bufferedWriter()
+//        val writer = File("books.csv").bufferedWriter();
+
+        val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT
+            .withHeader("Title", "Author", "Age", "Category", "Lexile Level", "Number of Copies", "Checked Out By"));
+        for (book in sorted){
+            csvPrinter.printRecord(book.get("Title").toString(),book.get("Author").toString(),
+                    book.get("Age").toString(),book.get("Category").toString(),book.get("Lexile Level").toString(),book.get("Number of Copies").toString(),book.get("Checked Out").toString())
+        }
+        csvPrinter.flush()
+        csvPrinter.close()
+
+
+    }
+
 
 }
