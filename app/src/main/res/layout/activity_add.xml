@@ -64,8 +64,7 @@
       android:id="@+id/category_spinner"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:minHeight="48dp"
-      android:theme="@style/SpinnerThemeCustom"/>
+      android:minHeight="48dp"/>
   <TextView
       android:id="@+id/copies_label"
       android:layout_width="wrap_content"

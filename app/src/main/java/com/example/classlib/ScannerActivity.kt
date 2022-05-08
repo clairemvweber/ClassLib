@@ -8,33 +8,32 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.*
-import androidx.camera.video.VideoCapture
 import java.util.concurrent.ExecutorService
 
-import android.widget.Button
 import androidx.camera.view.PreviewView
 
 typealias BarcodeListener = (barcode1: Barcode) -> Unit
 
 class ScannerActivity : AppCompatActivity() {
 
-    private var imageCapture: ImageCapture? = null
-
-    private var videoCapture: VideoCapture<Recorder>? = null
-    private var recording: Recording? = null
-    private lateinit var imageCaptureBtn : Button
 
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var overlay: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +44,6 @@ class ScannerActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
-        imageCaptureBtn = findViewById(R.id.image_capture_button)
-
-        imageCaptureBtn.setOnClickListener { takePhoto() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -64,7 +60,20 @@ class ScannerActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(findViewById<PreviewView>(R.id.viewFinder).surfaceProvider)
                 }
-
+            overlay = findViewById(R.id.scannerOverlay)
+            val height = windowManager.currentWindowMetrics.bounds.height()
+            val width = windowManager.currentWindowMetrics.bounds.width()
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            val paint = Paint()
+            paint.color = Color.RED
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 8F
+            paint.isAntiAlias = true
+            val offset = 50
+            canvas.drawLine(
+                0F, (height/2).toFloat(), (width-offset).toFloat(),(height/2).toFloat(), paint)
+            overlay.setImageBitmap(bitmap)
             val imageAnalyzer = ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
 
@@ -95,7 +104,7 @@ class ScannerActivity : AppCompatActivity() {
 
         }, ContextCompat.getMainExecutor(this))
     }
-    private fun takePhoto() {}
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray) {
@@ -120,6 +129,7 @@ class ScannerActivity : AppCompatActivity() {
     }
     private class BarcodeAnalyzer(private val listener: BarcodeListener) : ImageAnalysis.Analyzer {
 
+        @SuppressLint("UnsafeOptInUsageError")
         override fun analyze(imageProxy: ImageProxy) {
             var options = BarcodeScannerOptions.Builder()
             .setBarcodeFormats(
@@ -129,7 +139,7 @@ class ScannerActivity : AppCompatActivity() {
             if (mediaImage != null) {
                 val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
                 val scanner = BarcodeScanning.getClient(options)
-                val result = scanner.process(image)
+                scanner.process(image)
                     .addOnSuccessListener {barcodes->
                         if(barcodes.isNotEmpty()){
                             Log.i("Result", barcodes[0].displayValue.toString())
