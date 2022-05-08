@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 
+// registrationActivity based on the FirebaseEmailAuthExample
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var emailTV: EditText
@@ -38,11 +39,16 @@ class RegistrationActivity : AppCompatActivity() {
         val password: String = passwordTV.text.toString()
 
         if (!validator.validEmail(email)) {
-            Toast.makeText(applicationContext, "Please enter a valid email...", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Please enter a valid email...", Toast.LENGTH_LONG)
+                .show()
             return
         }
         if (!validator.validPassword(password)) {
-            Toast.makeText(applicationContext, "Password must contain 8 characters with one letter and one number!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext,
+                "Password must contain 8 characters with one letter and one number!",
+                Toast.LENGTH_LONG
+            ).show()
             return
         }
 
@@ -51,16 +57,21 @@ class RegistrationActivity : AppCompatActivity() {
         x.addOnCompleteListener { task ->
             progressBar.visibility = View.GONE
             if (task.isSuccessful) {
-                Toast.makeText(applicationContext, getString(R.string.register_success_string), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.register_success_string),
+                    Toast.LENGTH_LONG
+                ).show()
                 startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
             } else {
                 val errorCode = (task.exception as FirebaseAuthException?)!!.errorCode
                 var errorMessage = ""
-                errorMessage = if(errorCode == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL" || errorCode == "ERROR_EMAIL_ALREADY_IN_USE"){
-                    "An account already exists with the same email"
-                } else{
-                    "An unknown error has occurred. Please try again later"
-                }
+                errorMessage =
+                    if (errorCode == "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL" || errorCode == "ERROR_EMAIL_ALREADY_IN_USE") {
+                        "An account already exists with the same email"
+                    } else {
+                        "An unknown error has occurred. Please try again later"
+                    }
                 Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_LONG).show()
             }
         }

@@ -1,5 +1,4 @@
 package com.example.classlib
-
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -9,11 +8,12 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import android.graphics.Paint
+import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 
+// login activity based on the FirebaseEmailAuthExample
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var userEmail: EditText
@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginBtn: Button
     private lateinit var registerText: TextView
     private lateinit var progressBar: ProgressBar
-    private lateinit var loginSkip: Button
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,18 +30,14 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         initializeUI()
-        registerText.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+        registerText.text = Html.fromHtml("<u><strong>Register</strong></u>")
         registerText.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
-        }
-        loginSkip.setOnClickListener{
-            intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-            intent.putExtra("username", "admin")
-            startActivity(intent)
         }
         loginBtn.setOnClickListener { loginUserAccount() }
     }
 
+    // function to login to the user Account
     private fun loginUserAccount() {
         progressBar.visibility = View.VISIBLE
 
@@ -58,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
+        // check if the login was successful
         mAuth!!.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 progressBar.visibility = View.GONE
@@ -69,17 +65,21 @@ class LoginActivity : AppCompatActivity() {
                     intent.putExtra("username", email)
                     startActivity(intent)
                 } else {
+                    // means that the login was unsuccessful and will show the reason behind it
                     val errorCode = (task.exception as FirebaseAuthException?)!!.errorCode
                     var errorText = ""
-                    errorText = if(errorCode == "ERROR_INVALID_EMAIL" || errorCode == "ERROR_USER_MISMATCH" ||
-                        errorCode == "ERROR_USER_NOT_FOUND" || errorCode == "ERROR_WRONG_PASSWORD"){
-                        "Incorrect email or password"
-                    } else if(errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"
-                        || errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"){
-                        "An error has occurred from the server. Please try again later"
-                    } else{
-                        "An unknown error has occurred. Please try again later"
-                    }
+                    errorText =
+                        if (errorCode == "ERROR_INVALID_EMAIL" || errorCode == "ERROR_USER_MISMATCH" ||
+                            errorCode == "ERROR_USER_NOT_FOUND" || errorCode == "ERROR_WRONG_PASSWORD"
+                        ) {
+                            "Incorrect email or password"
+                        } else if (errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"
+                            || errorCode == "ERROR_OPERATION_NOT_ALLOWED" || errorCode == "ERROR_OPERATION_NOT_ALLOWED"
+                        ) {
+                            "An error has occurred from the server. Please try again later"
+                        } else {
+                            "An unknown error has occurred. Please try again later"
+                        }
                     Toast.makeText(
                         applicationContext,
                         errorText,
@@ -95,6 +95,5 @@ class LoginActivity : AppCompatActivity() {
         registerText = findViewById(R.id.registertext)
         loginBtn = findViewById(R.id.login)
         progressBar = findViewById(R.id.progressBar)
-        loginSkip = findViewById(R.id.skip)
     }
 }

@@ -25,34 +25,38 @@ class CheckoutActivity : AppCompatActivity() {
         returnButton.setOnClickListener { returnBook() }
         checkoutButton.setOnClickListener { checkOut() }
 
-        // Suggestion text
+        // adding suggestion text based on the books that have been added by this user
         val db = Firebase.firestore
         val docRef = db.collection(userEmail)
-        val list: MutableList<String> =  mutableListOf<String>()
+        val list: MutableList<String> = mutableListOf<String>()
         docRef.get().addOnSuccessListener { document ->
             val temp = document.documents
-            for(a in temp){
-                if(a != null) {
+            for (a in temp) {
+                if (a != null) {
                     list.add(a.get("Title").toString())
                     //Log.d(TAG, "DocumentSnapshot data: ${a.get("Title")}")
                 }
             }
-            if(!list.isEmpty()) {
+            // if there exists a book, add it
+            if (!list.isEmpty()) {
                 ArrayAdapter<String>(this, R.layout.suggestion_layout, list).also { adapter ->
                     bookTitle.setAdapter(adapter)
                 }
             }
         }.addOnFailureListener {
-            Toast.makeText(applicationContext, "Auto suggestion not available",
-                Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext, "Auto suggestion not available",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
+    // function for checking out the book
     private fun checkOut() {
         val id = studentID.text.toString()
         val db = Firebase.firestore
         val bookTitle = bookTitle.text.toString()
-        if((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
+        if ((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
             val docRef = db.collection(userEmail).document(bookTitle.uppercase())
             docRef.get().addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
@@ -119,35 +123,32 @@ class CheckoutActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-        }else{
+        } else {
             Toast.makeText(
                 applicationContext,
                 "Please fill out the fields",
                 Toast.LENGTH_LONG
             ).show()
         }
-
-
-        //Log.d(TAG, numBooks.result.get("Author").toString())
     }
 
+    // function for returning books
     private fun returnBook() {
         val id = studentID.text.toString()
         val db = Firebase.firestore
         val bookTitle = bookTitle.text.toString()
-        if((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
+        if ((bookTitle != "" && bookTitle != null) || (id != "" && id != null)) {
             val docRef = db.collection(userEmail).document(bookTitle.uppercase())
             docRef.get().addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
-                    //Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-
                     var list = document.get("Checked Out").toString()
                     val newList = list.split(",").toMutableList()
                     if (!newList.contains(id)) {
                         Toast.makeText(
                             applicationContext,
                             "This student ID: $id doesn't have the book: $bookTitle",
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_LONG
+                        ).show()
                     } else {
                         newList.remove(id)
                         list = newList.joinToString(",")
@@ -197,14 +198,13 @@ class CheckoutActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-        }else{
+        } else {
             Toast.makeText(
                 applicationContext,
                 "Please fill out the fields",
                 Toast.LENGTH_LONG
             ).show()
         }
-
     }
 
     private fun initializeUI() {

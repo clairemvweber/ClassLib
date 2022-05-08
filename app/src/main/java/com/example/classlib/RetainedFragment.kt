@@ -1,4 +1,5 @@
 package com.example.classlib
+
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
@@ -28,7 +29,7 @@ class RetainedFragment : Fragment() {
         retainInstance = true
     }
 
-    internal fun onButtonPressed(isbn1 : String) {
+    internal fun onButtonPressed(isbn1: String) {
         HttpGetTask(this, isbn1).execute()
     }
 
@@ -83,20 +84,20 @@ class RetainedFragment : Fragment() {
 
             try {
                 // 1. Get connection. 2. Prepare request (URI)
-                httpUrlConnection = URL(URL+isbn1)
+                httpUrlConnection = URL(URL + isbn1)
                     .openConnection() as HttpURLConnection
 
                 // 3. This app does not use a request body
                 httpUrlConnection.setRequestProperty("Accept", "application/json; version=1.0")
                 // 4. Read the response
-                Log.i(TAG,httpUrlConnection.responseCode.toString())
-                Log.i(TAG,httpUrlConnection.responseMessage.toString())
-                Log.i(TAG,"before stream")
-                if(httpUrlConnection.responseCode == HttpURLConnection.HTTP_OK){
+                Log.i(TAG, httpUrlConnection.responseCode.toString())
+                Log.i(TAG, httpUrlConnection.responseMessage.toString())
+                Log.i(TAG, "before stream")
+                if (httpUrlConnection.responseCode == HttpURLConnection.HTTP_OK) {
                     val inputstream = BufferedInputStream(
                         httpUrlConnection.inputStream
                     )
-                    Log.i(TAG,"before read")
+                    Log.i(TAG, "before read")
                     data = readStream(inputstream)
                 }
 
@@ -143,7 +144,7 @@ class RetainedFragment : Fragment() {
 
         private fun parseJsonString(data: String?): List<String> {
             Log.i("background", "here4")
-            val result =  ArrayList<String>()
+            val result = ArrayList<String>()
 
             try {
                 // Get top-level JSON Object - a Map

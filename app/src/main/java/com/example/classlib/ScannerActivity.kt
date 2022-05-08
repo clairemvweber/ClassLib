@@ -42,11 +42,13 @@ class ScannerActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
+
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -72,19 +74,24 @@ class ScannerActivity : AppCompatActivity() {
             paint.isAntiAlias = true
             val offset = 50
             canvas.drawLine(
-                0F, (height/2).toFloat(), (width-offset).toFloat(),(height/2).toFloat(), paint)
+                0F,
+                (height / 2).toFloat(),
+                (width - offset).toFloat(),
+                (height / 2).toFloat(),
+                paint
+            )
             overlay.setImageBitmap(bitmap)
-            val imageAnalyzer = ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
 
-                imageAnalyzer.setAnalyzer(cameraExecutor, BarcodeAnalyzer{barcode ->
-                        Log.i("Barcode:", barcode.displayValue.toString())
-                        val intent = Intent()
-                        intent.putExtra("ISBN", barcode.displayValue.toString())
-                        setResult(RESULT_OK,intent)
-                        finish()
-                    })
-
+            imageAnalyzer.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcode ->
+                Log.i("Barcode:", barcode.displayValue.toString())
+                val intent = Intent()
+                intent.putExtra("ISBN", barcode.displayValue.toString())
+                setResult(RESULT_OK, intent)
+                finish()
+            })
 
 
             // Select back camera as a default
@@ -96,9 +103,10 @@ class ScannerActivity : AppCompatActivity() {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageAnalyzer)
+                    this, cameraSelector, preview, imageAnalyzer
+                )
 
-            } catch(exc: Exception) {
+            } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
@@ -107,51 +115,63 @@ class ScannerActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
+        IntArray
+    ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
+                Toast.makeText(
+                    this,
                     "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
         }
     }
+
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+            baseContext, it
+        ) == PackageManager.PERMISSION_GRANTED
     }
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
     }
+
     private class BarcodeAnalyzer(private val listener: BarcodeListener) : ImageAnalysis.Analyzer {
 
         @SuppressLint("UnsafeOptInUsageError")
         override fun analyze(imageProxy: ImageProxy) {
             var options = BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(
-                Barcode.FORMAT_EAN_13)
+                .setBarcodeFormats(
+                    Barcode.FORMAT_EAN_13
+                )
                 .build()
             val mediaImage = imageProxy.image
             if (mediaImage != null) {
-                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                val image =
+                    InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
                 val scanner = BarcodeScanning.getClient(options)
                 scanner.process(image)
-                    .addOnSuccessListener {barcodes->
-                        if(barcodes.isNotEmpty()){
+                    .addOnSuccessListener { barcodes ->
+                        if (barcodes.isNotEmpty()) {
                             Log.i("Result", barcodes[0].displayValue.toString())
                             listener(barcodes[0])
                             imageProxy.close()
-                        }else {Log.i("Result", "No barcodes matched")}
+                        } else {
+                            Log.i("Result", "No barcodes matched")
+                        }
 
                     }
             }
             imageProxy.close()
         }
     }
+
     companion object {
         private const val TAG = "ScannerActivity"
         private const val REQUEST_CODE_PERMISSIONS = 10

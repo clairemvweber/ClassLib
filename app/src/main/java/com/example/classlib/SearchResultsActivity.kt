@@ -56,11 +56,21 @@ class SearchResultsActivity : AppCompatActivity() {
 
                 // Search functions by query values
                 if (queries[0] != "") {
-                    bookList = bookList.filter { book -> book.title!!.contains(queries[0], ignoreCase = true) }
+                    bookList = bookList.filter { book ->
+                        book.title!!.contains(
+                            queries[0],
+                            ignoreCase = true
+                        )
+                    }
                 }
 
                 if (queries[1] != "") {
-                    bookList = bookList.filter { book -> book.author!!.contains(queries[1], ignoreCase = true) }
+                    bookList = bookList.filter { book ->
+                        book.author!!.contains(
+                            queries[1],
+                            ignoreCase = true
+                        )
+                    }
                 }
 
                 if (queries[2] != "Any") {
@@ -69,11 +79,13 @@ class SearchResultsActivity : AppCompatActivity() {
 
                 bookList = bookList.filter { book ->
                     (queries[3].toInt() <= book.lexileLevel!!.toInt()
-                            && book.lexileLevel!!.toInt() <= queries[4].toInt()) }
+                            && book.lexileLevel!!.toInt() <= queries[4].toInt())
+                }
 
                 bookList = bookList.filter { book ->
                     (queries[5].toInt() <= book.age!!.toInt()
-                            && book.age!!.toInt() <= queries[6].toInt()) }
+                            && book.age!!.toInt() <= queries[6].toInt())
+                }
 
                 if (bookList.isNotEmpty()) {
                     Log.i("SearchResultActivity", "list loaded")
@@ -81,8 +93,10 @@ class SearchResultsActivity : AppCompatActivity() {
                 }
 
             }.addOnFailureListener {
-                Toast.makeText(applicationContext, "Could load data from server",
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    applicationContext, "Could load data from server",
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 }

@@ -35,13 +35,13 @@ class SearchActivity : AppCompatActivity() {
             this, R.layout.support_simple_spinner_dropdown_item,
             resources.getStringArray(R.array.categories)
         )
-        category.adapter=adapter
+        category.adapter = adapter
 
         lexileLevel = findViewById(R.id.search_lexile_range)
         age = findViewById(R.id.search_age_range)
         available = findViewById(R.id.search_availability)
         searchButton = findViewById(R.id.search_button)
-        searchButton.setOnClickListener{ search() }
+        searchButton.setOnClickListener { search() }
     }
 
     // Stores input as intent extras and starts SearchResultsActivity
@@ -54,7 +54,8 @@ class SearchActivity : AppCompatActivity() {
             category.selectedItem.toString(),
             lexileLevel.values[0].toInt().toString(), lexileLevel.values[1].toInt().toString(),
             age.values[0].toInt().toString(), age.values[1].toInt().toString(),
-            availableInput)
+            availableInput
+        )
 
         val searchIntent = Intent(this, SearchResultsActivity::class.java)
 

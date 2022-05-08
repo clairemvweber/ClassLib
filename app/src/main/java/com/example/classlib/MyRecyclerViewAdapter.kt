@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 
+// viewAdapter for report
+// from UIRecyclerView example
 internal class MyRecyclerViewAdapter(
     private val mNames: List<Spanned>,
     private val mRowLayout: Int

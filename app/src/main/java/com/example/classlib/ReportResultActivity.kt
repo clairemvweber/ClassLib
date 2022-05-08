@@ -22,10 +22,11 @@ import java.io.File
 import java.nio.file.Paths
 import java.util.*
 
+// activity for showing the result of the report
 class ReportResultActivity : AppCompatActivity() {
     var userEmail = ""
     val TAG = "ClassLib"
-    private lateinit var sorted : List<DocumentSnapshot>
+    private lateinit var sorted: List<DocumentSnapshot>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_result)
@@ -39,24 +40,27 @@ class ReportResultActivity : AppCompatActivity() {
 
         val db = Firebase.firestore
         val docRef = db.collection(userEmail)
-        val list: MutableList<Spanned> =  mutableListOf<Spanned>()
-        // either list em all or only list the ones that have been checked out
+        val list: MutableList<Spanned> = mutableListOf<Spanned>()
+        // either list all books or only list the ones that have been checked out
         val whichOne = intent.getStringExtra("get").toString() == "checked"
         var sortBy = intent.getStringExtra("sort").toString()
         var sortBy2 = intent.getStringExtra("sort2").toString()
-        if(sortBy == "Copies Available"){
+        if (sortBy == "Copies Available") {
             sortBy = "Number of Copies"
         }
-        if(sortBy2 == "Copies Available"){
+        if (sortBy2 == "Copies Available") {
             sortBy2 = "Number of Copies"
         }
         docRef.orderBy(sortBy).get().addOnSuccessListener { document ->
             val temp = document.documents
-            sorted = temp.sortedWith(compareBy({ it.get(sortBy).toString()}, {it.get(sortBy2).toString() }))
-            for(a in sorted){
-                if(a != null) {
-                    if(a.get("Checked Out") == "" && whichOne) {}
-                    else {
+            sorted = temp.sortedWith(
+                compareBy({ it.get(sortBy).toString() },
+                    { it.get(sortBy2).toString() })
+            )
+            for (a in sorted) {
+                if (a != null) {
+                    if (a.get("Checked Out") == "" && whichOne) {
+                    } else {
                         var info = "<big><strong><u>${a.get("Title")}</u></strong></big><br>" +
                                 "Author: ${a.get("Author")}<br>Age: ${a.get("Age")}<br>" +
                                 "Category: ${a.get("Category")}<br>" +
@@ -66,33 +70,50 @@ class ReportResultActivity : AppCompatActivity() {
                         var test = Html.fromHtml("$info")
                         list.add(test)
                     }
-                    //Log.d(TAG, "DocumentSnapshot data: ${a.get("Title")}")
                 }
             }
-            if(!list.isEmpty()) {
-                //Log.d(TAG, "DocumentSnapshot data: ${list}")
-
-                mRecyclerView.adapter = MyRecyclerViewAdapter(list,R.layout.activity_report_view)
+            if (!list.isEmpty()) {
+                mRecyclerView.adapter = MyRecyclerViewAdapter(list, R.layout.activity_report_view)
                 exportReport()
             }
         }.addOnFailureListener { e ->
-            Toast.makeText(applicationContext, "Couldn't load data from server",
-                Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext, "Couldn't load data from server",
+                Toast.LENGTH_LONG
+            ).show()
             Log.w(TAG, "Error reading document", e)
         }
     }
 
     private fun initializeUI() {
     }
-    private fun exportReport(){
+
+    private fun exportReport() {
         val writer = openFileOutput("books.csv", Context.MODE_PRIVATE).bufferedWriter()
 //        val writer = File("books.csv").bufferedWriter();
 
-        val csvPrinter = CSVPrinter(writer, CSVFormat.DEFAULT
-            .withHeader("Title", "Author", "Age", "Category", "Lexile Level", "Number of Copies", "Checked Out By"));
-        for (book in sorted){
-            csvPrinter.printRecord(book.get("Title").toString(),book.get("Author").toString(),
-                    book.get("Age").toString(),book.get("Category").toString(),book.get("Lexile Level").toString(),book.get("Number of Copies").toString(),book.get("Checked Out").toString())
+        val csvPrinter = CSVPrinter(
+            writer, CSVFormat.DEFAULT
+                .withHeader(
+                    "Title",
+                    "Author",
+                    "Age",
+                    "Category",
+                    "Lexile Level",
+                    "Number of Copies",
+                    "Checked Out By"
+                )
+        );
+        for (book in sorted) {
+            csvPrinter.printRecord(
+                book.get("Title").toString(),
+                book.get("Author").toString(),
+                book.get("Age").toString(),
+                book.get("Category").toString(),
+                book.get("Lexile Level").toString(),
+                book.get("Number of Copies").toString(),
+                book.get("Checked Out").toString()
+            )
         }
         csvPrinter.flush()
         csvPrinter.close()

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.w3c.dom.Text
 
-class SearchRecyclerViewAdapter (
+class SearchRecyclerViewAdapter(
     private val books: List<Books>
 ) : RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>() {
 
@@ -30,7 +30,7 @@ class SearchRecyclerViewAdapter (
         return books.size
     }
 
-    class ViewHolder internal constructor(itemView: View) :RecyclerView.ViewHolder(itemView) {
+    class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var titleView: TextView
         var authorView: TextView
         var categoryView: TextView

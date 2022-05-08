@@ -32,6 +32,7 @@ class ReportActivity : AppCompatActivity() {
         getCheckedOutButton.setOnClickListener { getCheckedOut() }
     }
 
+    // gets the report for the whole library for this user
     fun getLibrary(){
         intent = Intent(this, ReportResultActivity::class.java)
         intent.putExtra("username", userEmail)
@@ -46,6 +47,7 @@ class ReportActivity : AppCompatActivity() {
         }
     }
 
+    // gets the report for the books that have been checked out
     fun getCheckedOut(){
         intent = Intent(this, ReportResultActivity::class.java)
         intent.putExtra("username", userEmail)

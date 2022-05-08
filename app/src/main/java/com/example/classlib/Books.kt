@@ -1,5 +1,6 @@
 package com.example.classlib
 
+// class for storing data for books
 class Books(
     var title: String? = null,
     var author: String? = null,
