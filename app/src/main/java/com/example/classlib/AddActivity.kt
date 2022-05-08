@@ -106,6 +106,7 @@ class AddActivity : AppCompatActivity() {
             if (data.getStringExtra(MIN_AGE_TAG) != "null") {
                 bookAge.setText(data.getStringExtra(MIN_AGE_TAG))
             }
+            bookCopies.setText("1")
         }
     }
 
