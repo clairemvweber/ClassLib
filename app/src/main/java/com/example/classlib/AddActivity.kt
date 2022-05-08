@@ -75,12 +75,6 @@ class AddActivity : AppCompatActivity() {
         addBtn = findViewById(R.id.add_button)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.top_menu, menu)
-        return true
-    }
-
     // function for looking isbn
     private fun isbnLookup() {
         startActivityForResult(
